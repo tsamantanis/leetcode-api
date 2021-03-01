@@ -1,74 +1,43 @@
-require('dotenv/config')
 const express = require('express')
 const bodyParser = require('body-parser')
 const fetch = require('node-fetch');
+const cors = require('cors');
+const mongoose = require('mongoose');
 const { getRandomInt } = require('./helpers/random')
-// Set App Variable
-const app = express()
 
-// Use Body Parser
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+// Load environment variables
+require('dotenv').config();
 
-app.use((req, res, next) => {
-    const now = new Date().toString()
-    console.log(`Requested ${req.url} at ${now}`)
-    next()
+// Load Models
+require('./models/User');
+
+// Load Auth Check
+require('./config/passport');
+
+// Setup server
+const app = express();
+const port = process.env.PORT || 5000;
+
+const corsOptions = {
+    origin: ['http://localhost:5000'],
+    credentials: true,
+}
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use(require('morgan')('dev'));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// Setup MongoDB
+const uri = process.env.MONGODB_URI;
+mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
+const connection = mongoose.connection;
+connection.once('open', () => {
+    console.log("MongoDB database connection established successfully");
 })
 
-app.get('/all', async (req, res) => {
-    const response = await fetch('https://leetcode.com/api/problems/algorithms/')
-    const body = await response.text()
-    const data = JSON.parse(body)
-    return res.json(data.stat_status_pairs)
-})
-
-app.get('/free', async (req, res) => {
-    const response = await fetch('https://leetcode.com/api/problems/algorithms/')
-    const body = await response.text()
-    let data = JSON.parse(body)
-    data = data.stat_status_pairs.filter((question) => !question.paid_only)
-    return res.json(data)
-})
-
-app.get('/paid', async (req, res) => {
-    const response = await fetch('https://leetcode.com/api/problems/algorithms/')
-    const body = await response.text()
-    let data = JSON.parse(body)
-    data = data.stat_status_pairs.filter((question) => question.paid_only)
-    return res.json(data)
-})
-
-app.get('/free/random', async (req, res) => {
-    const response = await fetch('https://leetcode.com/api/problems/algorithms/')
-    const body = await response.text()
-    let data = JSON.parse(body)
-    data = data.stat_status_pairs.filter((question) => !question.paid_only)
-    return res.json(data[getRandomInt(data.length - 1)])
-})
-
-app.get('/paid/random', async (req, res) => {
-    const response = await fetch('https://leetcode.com/api/problems/algorithms/')
-    const body = await response.text()
-    let data = JSON.parse(body)
-    data = data.stat_status_pairs.filter((question) => question.paid_only)
-    return res.json(data[getRandomInt(data.length - 1)])
-})
-
-app.get('/random', async (req, res) => {
-    const response = await fetch('https://leetcode.com/api/problems/algorithms/')
-    const body = await response.text()
-    let data = JSON.parse(body)
-    data = data.stat_status_pairs
-    return res.json(data[getRandomInt(data.length - 1)])
-})
-
-// Database Setup
-// require('./config/db-setup.js')
-
-// Routes
-// const router = require('./routes/index.js')
-// app.use(router)
+// Load routes
+app.use(require('./routes'));
 
 // Start Server
 app.listen(process.env.PORT, () => {
