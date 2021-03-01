@@ -39,7 +39,7 @@ describe('User API endpoints', () => {
     })
 
     // Delete sample user.
-    afterEach((done) => {
+    after((done) => {
         User.deleteMany({ email: ['myuser@mailinator.com', 'anotheruser@mailinator.com'] })
         .then(() => {
             done()
@@ -60,22 +60,48 @@ describe('User API endpoints', () => {
         })
     })
 
-    // it('should post a new user', (done) => {
-    //     chai.request(app)
-    //     .post('/users')
-    //     .send({user: {email: 'anotheruser@mailinator.com', password: 'mypassword' }})
-    //     .end((err, res) => {
-    //         if (err) { done(err) }
-    //         expect(res.body.user).to.be.an('object')
-    //         expect(res.body.user).to.have.property('email', 'anotheruser@mailinator.com')
-    //
-    //         // check that user is actually inserted into database
-    //         User.findOne({username: 'anotheruser'}).then(user => {
-    //             expect(user).to.be.an('object')
-    //             done()
-    //         })
-    //     })
-    // })
+    it('should post a new user', (done) => {
+        chai.request(app)
+        .post('/users/register')
+        .send({user: {email: 'anotheruser@mailinator.com', password: 'mypassword' }})
+        .end((err, res) => {
+            if (err) { done(err) }
+            expect(res.body.user).to.be.an('object')
+            expect(res.body.user).to.have.property('email', 'anotheruser@mailinator.com')
+            // check that user is actually inserted into database
+            User.findOne({email: 'anotheruser@mailinator.com'}).then(user => {
+                expect(user).to.be.an('object')
+                done()
+            })
+        })
+    })
+
+    it('should log an existing user in', (done) => {
+        chai.request(app)
+        .post('/users/login')
+        .send({user: {email: 'myuser@mailinator.com', password: 'password' }})
+        .end((err, res) => {
+            if (err) { done(err) }
+            expect(res.body.user).to.be.an('object')
+            expect(res.body.user).to.have.property('email', 'myuser@mailinator.com')
+            expect(res.body.user).to.have.property('token')
+            // check that user is actually inserted into database
+            done()
+        })
+    })
+
+    it('should fail to log a user in', (done) => {
+        chai.request(app)
+        .post('/users/login')
+        .send({user: {email: 'myuser@mailinator.com', password: 'password1' }})
+        .end((err, res) => {
+            if (err) { done(err) }
+            expect(res.body.user).to.equal(undefined)
+            expect(res.body).to.have.property('message', 'Invalid credentials')
+            // check that user is actually inserted into database
+            done()
+        })
+    })
     //
     // it('should update a user', (done) => {
     //     chai.request(app)

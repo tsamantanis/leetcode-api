@@ -13,9 +13,9 @@ router.post('/login',[
     if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() });
     }
-    passport.authenticate('local', { session: false }, function(err, user, info) {
+    passport.authenticate('local', { session: false }, function(err, user) {
         if (err) { return next(err); }
-        if (!user) { return res.json({user: null}) }
+        if (!user) { return res.json({ message: 'Invalid credentials' }) }
         return res.json({user: user.toAuthJSON()});
     })(req, res, next);
 });

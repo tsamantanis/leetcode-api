@@ -1,13 +1,11 @@
 const mongoose = require('mongoose');
 
 // connect to mongo db
-const mongoUri = process.env.MONGODB_TEST_URI || 'leetcodeapi'
-mongoose.set('useUnifiedTopology', true)
-mongoose.set('useFindAndModify', false)
-mongoose.connect(mongoUri, { useNewUrlParser: true })
-
-mongoose.connection.on('error', () => {
-  throw new Error(`unable to connect to database: ${mongoUri}`)
+const uri = process.env.MONGODB_TEST_URI || 'leetcodeapi'
+mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
+const connection = mongoose.connection;
+connection.once('open', () => {
+    console.log("MongoDB database connection established successfully");
 })
 
 module.exports = mongoose.connection
