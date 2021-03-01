@@ -2,6 +2,7 @@ require('dotenv/config')
 const express = require('express')
 const bodyParser = require('body-parser')
 const fetch = require('node-fetch');
+const { getRandomInt } = require('./helpers/random')
 // Set App Variable
 const app = express()
 
@@ -38,7 +39,30 @@ app.get('/paid', async (req, res) => {
     return res.json(data)
 })
 
-app.get
+app.get('/free/random', async (req, res) => {
+    const response = await fetch('https://leetcode.com/api/problems/algorithms/')
+    const body = await response.text()
+    let data = JSON.parse(body)
+    data = data.stat_status_pairs.filter((question) => !question.paid_only)
+    return res.json(data[getRandomInt(data.length - 1)])
+})
+
+app.get('/paid/random', async (req, res) => {
+    const response = await fetch('https://leetcode.com/api/problems/algorithms/')
+    const body = await response.text()
+    let data = JSON.parse(body)
+    data = data.stat_status_pairs.filter((question) => question.paid_only)
+    return res.json(data[getRandomInt(data.length - 1)])
+})
+
+app.get('/random', async (req, res) => {
+    const response = await fetch('https://leetcode.com/api/problems/algorithms/')
+    const body = await response.text()
+    let data = JSON.parse(body)
+    data = data.stat_status_pairs
+    return res.json(data[getRandomInt(data.length - 1)])
+})
+
 // Database Setup
 // require('./config/db-setup.js')
 
