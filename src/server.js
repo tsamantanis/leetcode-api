@@ -16,15 +16,29 @@ app.use((req, res, next) => {
 })
 
 app.get('/', async (req, res) => {
-    // fetch('https://leetcode.com/api/problems/algorithms/')
-    // .then(res => res.text())
-    // .then(body => res.json(JSON.parse(body)))
     const response = await fetch('https://leetcode.com/api/problems/algorithms/')
     const body = await response.text()
     const data = JSON.parse(body)
     return res.json(data.stat_status_pairs)
 })
 
+app.get('/free', async (req, res) => {
+    const response = await fetch('https://leetcode.com/api/problems/algorithms/')
+    const body = await response.text()
+    let data = JSON.parse(body)
+    data = data.stat_status_pairs.filter((question) => !question.paid_only)
+    return res.json(data)
+})
+
+app.get('/paid', async (req, res) => {
+    const response = await fetch('https://leetcode.com/api/problems/algorithms/')
+    const body = await response.text()
+    let data = JSON.parse(body)
+    data = data.stat_status_pairs.filter((question) => question.paid_only)
+    return res.json(data)
+})
+
+app.get
 // Database Setup
 // require('./config/db-setup.js')
 
