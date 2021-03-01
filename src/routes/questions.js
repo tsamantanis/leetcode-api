@@ -15,6 +15,10 @@ router.get('/all', auth.required, async (req, res) => {
 })
 
 router.get('/free', auth.required, async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
     const response = await fetch('https://leetcode.com/api/problems/algorithms/')
     const body = await response.text()
     let data = JSON.parse(body)
@@ -23,6 +27,10 @@ router.get('/free', auth.required, async (req, res) => {
 })
 
 router.get('/paid', auth.required, async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
     const response = await fetch('https://leetcode.com/api/problems/algorithms/')
     const body = await response.text()
     let data = JSON.parse(body)
@@ -31,6 +39,10 @@ router.get('/paid', auth.required, async (req, res) => {
 })
 
 router.get('/free/random', auth.required, async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
     const response = await fetch('https://leetcode.com/api/problems/algorithms/')
     const body = await response.text()
     let data = JSON.parse(body)
@@ -39,6 +51,10 @@ router.get('/free/random', auth.required, async (req, res) => {
 })
 
 router.get('/paid/random', auth.required, async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
     const response = await fetch('https://leetcode.com/api/problems/algorithms/')
     const body = await response.text()
     let data = JSON.parse(body)
@@ -47,6 +63,10 @@ router.get('/paid/random', auth.required, async (req, res) => {
 })
 
 router.get('/random', auth.required, async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
     const response = await fetch('https://leetcode.com/api/problems/algorithms/')
     const body = await response.text()
     let data = JSON.parse(body)
