@@ -16,7 +16,7 @@ app.use((req, res, next) => {
     next()
 })
 
-app.get('/', async (req, res) => {
+app.get('/all', async (req, res) => {
     const response = await fetch('https://leetcode.com/api/problems/algorithms/')
     const body = await response.text()
     const data = JSON.parse(body)

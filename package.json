@@ -1,16 +1,22 @@
 {
   "name": "leetcode-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "This unofficial Leetcode API helps developers easily access Leetcode technical interview questions to assist interview preparation.",
   "main": "src/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "test": "mocha src/test"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^7.1.1",
+    "nodemon": "^2.0.2"
+  },
   "dependencies": {
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
