@@ -3,6 +3,7 @@ const router = require('express').Router();
 const { body, query, validationResult } = require('express-validator');
 const passport = require('passport');
 const User = mongoose.model('User');
+const auth = require('./auth');
 
 router.post('/login',[
     body('user.email').isEmail(),
@@ -39,5 +40,11 @@ router.post('/register', [
         return res.json({user: user.toAuthJSON()});
     });
 });
+
+router.get('/:id', auth.required, async function(req, res) {
+    const user = await User.findById(req.params.id)
+    if (!user) return res.status(404).json({ message: "User not found" })
+    return res.json({ user: user.toAuthJSON() })
+})
 
 module.exports = router;

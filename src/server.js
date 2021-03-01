@@ -9,7 +9,7 @@ const { getRandomInt } = require('./helpers/random')
 require('dotenv').config();
 
 // Load Models
-require('./models/User');
+require('./models/user');
 
 // Load Auth Check
 require('./config/passport');
@@ -29,12 +29,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Setup MongoDB
-const uri = process.env.MONGODB_URI;
-mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
-const connection = mongoose.connection;
-connection.once('open', () => {
-    console.log("MongoDB database connection established successfully");
-})
+if (process.env.ENVIRONMENT !== 'testing') {
+    const uri = process.env.MONGODB_URI;
+    mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
+    const connection = mongoose.connection;
+    connection.once('open', () => {
+        console.log("MongoDB database connection established successfully");
+    })
+}
 
 // Load routes
 app.use(require('./routes'));
