@@ -1,8 +1,13 @@
 const router = require('express').Router();
 const fetch = require('node-fetch');
+const { validationResult } = require('express-validator');
 const auth = require('./auth');
 
 router.get('/all', auth.required, async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
     const response = await fetch('https://leetcode.com/api/problems/algorithms/')
     const body = await response.text()
     const data = JSON.parse(body)
