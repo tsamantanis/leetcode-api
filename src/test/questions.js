@@ -68,4 +68,48 @@ describe('Question API endpoints', () => {
         })
     })
 
+    it('should get all free questions', (done) => {
+        chai.request(app)
+        .get('/free')
+        .set({ "Authorization": `Bearer ${bearer}` })
+        .end((err, res) => {
+            if (err) { done(err) }
+            expect(res.body).to.be.an('array')
+            expect(res.body).to.have.lengthOf.above(0)
+            done()
+        })
+    })
+
+    it('should attempt get all free questions but fail', (done) => {
+        chai.request(app)
+        .get('/free')
+        .end((err, res) => {
+            if (err) { done(err) }
+            expect(res).to.have.status(401)
+            done()
+        })
+    })
+
+    it('should get all paid questions', (done) => {
+        chai.request(app)
+        .get('/paid')
+        .set({ "Authorization": `Bearer ${bearer}` })
+        .end((err, res) => {
+            if (err) { done(err) }
+            expect(res.body).to.be.an('array')
+            expect(res.body).to.have.lengthOf.above(0)
+            done()
+        })
+    })
+
+    it('should attempt get all paid questions but fail', (done) => {
+        chai.request(app)
+        .get('/paid')
+        .end((err, res) => {
+            if (err) { done(err) }
+            expect(res).to.have.status(401)
+            done()
+        })
+    })
+
 })
