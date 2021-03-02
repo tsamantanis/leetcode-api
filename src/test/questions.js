@@ -54,6 +54,14 @@ describe('Question API endpoints', () => {
             if (err) { done(err) }
             expect(res.body).to.be.an('array')
             expect(res.body).to.have.lengthOf.above(0)
+            expect(res.body[0]).to.be.an('object')
+            expect(res.body[0]).to.have.property('paid_only')
+            expect(res.body[0]).to.have.property('stat')
+            expect(res.body[0].stat).to.be.an('object')
+            expect(res.body[0].stat).to.have.property('question__title_slug')
+            expect(res.body[0]).to.have.property('difficulty')
+            expect(res.body[0].difficulty).to.be.an('object')
+            expect(res.body[0].difficulty).to.have.property('level')
             done()
         })
     })
@@ -76,6 +84,15 @@ describe('Question API endpoints', () => {
             if (err) { done(err) }
             expect(res.body).to.be.an('array')
             expect(res.body).to.have.lengthOf.above(0)
+            expect(res.body[0]).to.be.an('object')
+            expect(res.body[0]).to.have.property('paid_only')
+            expect(res.body[0]).to.have.property('paid_only', false)
+            expect(res.body[0]).to.have.property('stat')
+            expect(res.body[0].stat).to.be.an('object')
+            expect(res.body[0].stat).to.have.property('question__title_slug')
+            expect(res.body[0]).to.have.property('difficulty')
+            expect(res.body[0].difficulty).to.be.an('object')
+            expect(res.body[0].difficulty).to.have.property('level')
             done()
         })
     })
@@ -98,6 +115,15 @@ describe('Question API endpoints', () => {
             if (err) { done(err) }
             expect(res.body).to.be.an('array')
             expect(res.body).to.have.lengthOf.above(0)
+            expect(res.body[0]).to.be.an('object')
+            expect(res.body[0]).to.have.property('paid_only')
+            expect(res.body[0]).to.have.property('paid_only', true)
+            expect(res.body[0]).to.have.property('stat')
+            expect(res.body[0].stat).to.be.an('object')
+            expect(res.body[0].stat).to.have.property('question__title_slug')
+            expect(res.body[0]).to.have.property('difficulty')
+            expect(res.body[0].difficulty).to.be.an('object')
+            expect(res.body[0].difficulty).to.have.property('level')
             done()
         })
     })
@@ -112,4 +138,89 @@ describe('Question API endpoints', () => {
         })
     })
 
+    it('should get a random free question', (done) => {
+        chai.request(app)
+        .get('/free/random')
+        .set({ "Authorization": `Bearer ${bearer}` })
+        .end((err, res) => {
+            if (err) { done(err) }
+            expect(res.body).to.be.an('object')
+            expect(res.body).to.have.property('paid_only')
+            expect(res.body).to.have.property('paid_only', false)
+            expect(res.body).to.have.property('stat')
+            expect(res.body.stat).to.be.an('object')
+            expect(res.body.stat).to.have.property('question__title_slug')
+            expect(res.body).to.have.property('difficulty')
+            expect(res.body.difficulty).to.be.an('object')
+            expect(res.body.difficulty).to.have.property('level')
+            done()
+        })
+    })
+
+    it('should attempt to get a random free question but fail', (done) => {
+        chai.request(app)
+        .get('/free/random')
+        .end((err, res) => {
+            if (err) { done(err) }
+            expect(res).to.have.status(401)
+            done()
+        })
+    })
+
+    it('should get a random paid question', (done) => {
+        chai.request(app)
+        .get('/paid/random')
+        .set({ "Authorization": `Bearer ${bearer}` })
+        .end((err, res) => {
+            if (err) { done(err) }
+            expect(res.body).to.be.an('object')
+            expect(res.body).to.have.property('paid_only')
+            expect(res.body).to.have.property('paid_only', true)
+            expect(res.body).to.have.property('stat')
+            expect(res.body.stat).to.be.an('object')
+            expect(res.body.stat).to.have.property('question__title_slug')
+            expect(res.body).to.have.property('difficulty')
+            expect(res.body.difficulty).to.be.an('object')
+            expect(res.body.difficulty).to.have.property('level')
+            done()
+        })
+    })
+
+    it('should attempt to get a random paid question but fail', (done) => {
+        chai.request(app)
+        .get('/paid/random')
+        .end((err, res) => {
+            if (err) { done(err) }
+            expect(res).to.have.status(401)
+            done()
+        })
+    })
+
+    it('should get a random question', (done) => {
+        chai.request(app)
+        .get('/random')
+        .set({ "Authorization": `Bearer ${bearer}` })
+        .end((err, res) => {
+            if (err) { done(err) }
+            expect(res.body).to.be.an('object')
+            expect(res.body).to.have.property('paid_only')
+            expect(res.body).to.have.property('stat')
+            expect(res.body.stat).to.be.an('object')
+            expect(res.body.stat).to.have.property('question__title_slug')
+            expect(res.body).to.have.property('difficulty')
+            expect(res.body.difficulty).to.be.an('object')
+            expect(res.body.difficulty).to.have.property('level')
+            done()
+        })
+    })
+
+    it('should attempt to get a random question but fail', (done) => {
+        chai.request(app)
+        .get('/random')
+        .end((err, res) => {
+            if (err) { done(err) }
+            expect(res).to.have.status(401)
+            done()
+        })
+    })
 })

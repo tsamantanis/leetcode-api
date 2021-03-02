@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const fetch = require('node-fetch');
 const { validationResult } = require('express-validator');
+const { getRandomInt } = require('../helpers/random');
 const auth = require('./auth');
 
 router.get('/all', auth.required, async (req, res) => {
