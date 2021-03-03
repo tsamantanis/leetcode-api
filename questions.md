@@ -1,6 +1,6 @@
 # Questions
 
-{% api-method method="get" host="https://leetcodeapi.com/" path="all" %}
+{% api-method method="get" host="https://leetcodeapi.herokuapp.com/" path="all" %}
 {% api-method-summary %}
 Get All Questions
 {% endapi-method-summary %}
@@ -65,7 +65,7 @@ Bearer token was invalid
 {% endapi-method-spec %}
 {% endapi-method %}
 
-{% api-method method="get" host="https://leetcodeapi.com/" path="free" %}
+{% api-method method="get" host="https://leetcodeapi.herokuapp.com/" path="free" %}
 {% api-method-summary %}
 Get free questions
 {% endapi-method-summary %}
@@ -130,7 +130,7 @@ Bearer token provided is empty or invalid
 {% endapi-method-spec %}
 {% endapi-method %}
 
-{% api-method method="get" host="https://leetcodeapi.com/" path="paid" %}
+{% api-method method="get" host="https://leetcodeapi.herokuapp.com/" path="paid" %}
 {% api-method-summary %}
 Get paid questions
 {% endapi-method-summary %}
@@ -195,7 +195,7 @@ Bearer token provided is empty or invalid
 {% endapi-method-spec %}
 {% endapi-method %}
 
-{% api-method method="get" host="https://leetcodeapi.com/" path="free/random" %}
+{% api-method method="get" host="https://leetcodeapi.herokuapp.com/" path="free/random" %}
 {% api-method-summary %}
 Get a random free question
 {% endapi-method-summary %}
@@ -258,7 +258,7 @@ Bearer token provided is empty or invalid
 {% endapi-method-spec %}
 {% endapi-method %}
 
-{% api-method method="get" host="https://leetcodeapi.com/" path="paid/random" %}
+{% api-method method="get" host="https://leetcodeapi.herokuapp.com/" path="paid/random" %}
 {% api-method-summary %}
 Get a random paid question
 {% endapi-method-summary %}
@@ -321,7 +321,7 @@ Bearer token is empty or invalid
 {% endapi-method-spec %}
 {% endapi-method %}
 
-{% api-method method="get" host="https://leetcodeapi.com/" path="random" %}
+{% api-method method="get" host="https://leetcodeapi.herokuapp.com/" path="random" %}
 {% api-method-summary %}
 Get a random question
 {% endapi-method-summary %}

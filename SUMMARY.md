@@ -1,6 +1,6 @@
 # Table of contents
 
-* [Documentation](README.md)
+* [Introduction](README.md)
 * [Users](users.md)
 * [Questions](questions.md)
 
