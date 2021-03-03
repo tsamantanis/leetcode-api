@@ -102,25 +102,7 @@ describe('User API endpoints', () => {
             done()
         })
     })
-    //
-    // it('should update a user', (done) => {
-    //     chai.request(app)
-    //     .put(`/users/${SAMPLE_OBJECT_ID}`)
-    //     .send({username: 'anotheruser'})
-    //     .set({ "Authorization": `Bearer ${bearer}` })
-    //     .end((err, res) => {
-    //         if (err) { done(err) }
-    //         expect(res.body.user).to.be.an('object')
-    //         expect(res.body.user).to.have.property('username', 'anotheruser')
-    //
-    //         // check that user is actually inserted into database
-    //         User.findOne({username: 'anotheruser'}).then(user => {
-    //             expect(user).to.be.an('object')
-    //             done()
-    //         })
-    //     })
-    // })
-    //
+
     it('should delete a user', (done) => {
         chai.request(app)
         .delete(`/users/me`)
