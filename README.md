@@ -19,6 +19,6 @@ https://leetcodeapi.herokuapp.com
 
 ## Table of contents
 
-* [Documentation](https://app.gitbook.com/@philip-tsamantanis/s/leetcode-api/)
+* [Introduction](https://app.gitbook.com/@philip-tsamantanis/s/leetcode-api/)
 * [Users](https://app.gitbook.com/@philip-tsamantanis/s/leetcode-api/users)
 * [Questions](https://app.gitbook.com/@philip-tsamantanis/s/leetcode-api/questions)
