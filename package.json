@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "ENVIRONMENT=testing mocha src/test",
+    "test": "ENVIRONMENT=testing mocha src/tests",
     "test-watch": "ENVIRONMENT=testing nodemon --exec \"npm test\""
   },
   "keywords": [],

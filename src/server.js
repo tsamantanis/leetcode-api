@@ -39,7 +39,7 @@ if (process.env.ENVIRONMENT !== 'testing') {
 }
 
 // Load routes
-app.use(require('./routes'));
+app.use(require('./controllers'));
 
 // Start Server
 app.listen(process.env.PORT, () => {
