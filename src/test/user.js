@@ -121,20 +121,28 @@ describe('User API endpoints', () => {
     //     })
     // })
     //
-    // it('should delete a user', (done) => {
-    //     chai.request(app)
-    //     .delete(`/users/${SAMPLE_OBJECT_ID}`)
-    //     .set({ "Authorization": `Bearer ${bearer}` })
-    //     .end((err, res) => {
-    //         if (err) { done(err) }
-    //         expect(res.body.message).to.equal('Successfully deleted.')
-    //         expect(res.body._id).to.equal(SAMPLE_OBJECT_ID)
-    //
-    //         // check that user is actually deleted from database
-    //         User.findOne({username: 'myuser'}).then(user => {
-    //             expect(user).to.equal(null)
-    //             done()
-    //         })
-    //     })
-    // })
+    it('should delete a user', (done) => {
+        chai.request(app)
+        .delete(`/users/me`)
+        .set({ "Authorization": `Bearer ${bearer}` })
+        .end((err, res) => {
+            if (err) { done(err) }
+            expect(res.body.message).to.equal('Successfully deleted.')
+            // check that user is actually deleted from database
+            User.findOne({email: 'myuser@mailinator.com'}).then(user => {
+                expect(user).to.equal(null)
+                done()
+            })
+        })
+    })
+
+    it('should fail to delete a user', (done) => {
+        chai.request(app)
+        .delete(`/users/me`)
+        .end((err, res) => {
+            if (err) { done(err) }
+            expect(res).to.have.status(401)
+            done()
+        })
+    })
 })

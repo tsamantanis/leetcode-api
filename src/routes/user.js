@@ -47,4 +47,14 @@ router.get('/:id', auth.required, async function(req, res) {
     return res.json({ user: user.toAuthJSON() })
 })
 
+router.delete('/me', auth.required, async function(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+    const user = await User.findByIdAndDelete(req.payload.id)
+    if (!user) return res.status(422).json({ message: "User not found" });
+    return res.json({ message: "Successfully deleted.", _id: user._id })
+})
+
 module.exports = router;
