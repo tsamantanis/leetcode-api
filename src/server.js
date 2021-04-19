@@ -1,4 +1,5 @@
 const express = require('express');
+const serverless = require('serverless-http');
 const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
 const cors = require('cors');
@@ -19,7 +20,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 const corsOptions = {
-  origin: ['http://localhost:5000'],
+  origin: ['http://localhost:5000', 'https://13al0ae3vb.execute-api.us-east-1.amazonaws.com/dev'],
   credentials: true,
 };
 app.use(cors(corsOptions));
@@ -52,3 +53,4 @@ app.listen(process.env.PORT, () => {
 });
 
 module.exports = app;
+module.exports.handler = serverless(app);
